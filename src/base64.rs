@@ -122,7 +122,7 @@ impl ToBase64 for [u8] {
             let mut s_out = out_bytes.iter_mut();
 
             // Convenient shorthand
-            let enc = |val| bytes[val as usize];
+            let enc = |val: u32| bytes[val as usize];
             let mut write = |val| *s_out.next().unwrap() = val;
 
             // Iterate though blocks of 4

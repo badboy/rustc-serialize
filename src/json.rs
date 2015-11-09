@@ -253,8 +253,25 @@ use std::ops::Index;
 use std::str::FromStr;
 use std::string;
 use std::{char, f64, fmt, io, str};
+use std::num::Int;
+use std::num::Float;
+use std::result;
 
 use Encodable;
+
+pub trait From<T>: Sized {
+    /// Performs the conversion.
+    fn from(T) -> Self;
+}
+
+macro_rules! try {
+    ($expr:expr) => (match $expr {
+        Result::Ok(val) => val,
+        Result::Err(err) => {
+            return Result::Err(From::from(err))
+        }
+    })
+}
 
 /// Represents a json value
 #[derive(Clone, PartialEq, PartialOrd, Debug)]
@@ -411,6 +428,12 @@ impl fmt::Display for DecoderError {
 impl From<ParserError> for DecoderError {
     fn from(err: ParserError) -> DecoderError {
         ParseError(From::from(err))
+    }
+}
+
+impl<T> From<T> for T {
+    fn from(err: T) -> T {
+        err
     }
 }
 
@@ -1171,6 +1194,7 @@ impl Json {
     }
 }
 
+/*
 impl<'a> Index<&'a str>  for Json {
     type Output = Json;
 
@@ -1189,6 +1213,7 @@ impl Index<usize> for Json {
         }
     }
 }
+*/
 
 /// The output of the streaming parser.
 #[derive(PartialEq, Debug)]

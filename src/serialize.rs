@@ -21,6 +21,7 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::marker::PhantomData;
 use std::borrow::Cow;
+use std::borrow::ToOwned;
 
 pub trait Encoder {
     type Error;
@@ -605,6 +606,7 @@ array! {
     15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 }
 
+/*
 impl Encodable for path::Path {
     #[cfg(unix)]
     fn encode<S: Encoder>(&self, e: &mut S) -> Result<(), S::Error> {
@@ -618,7 +620,9 @@ impl Encodable for path::Path {
         v.encode(e)
     }
 }
+*/
 
+/*
 impl Encodable for path::PathBuf {
     fn encode<S: Encoder>(&self, e: &mut S) -> Result<(), S::Error> {
         (**self).encode(e)
@@ -645,6 +649,7 @@ impl Decodable for path::PathBuf {
         Ok(p)
     }
 }
+*/
 
 impl<T: Encodable + Copy> Encodable for Cell<T> {
     fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error> {
